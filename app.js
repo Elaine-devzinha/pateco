@@ -1,20 +1,24 @@
+'use strict'
+
+/**
+ * Module dependencies.
+ */
+
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 
 var app = express();
 
+// logs no terminal
 app.use(logger('dev'));
+// suporte a json
 app.use(express.json());
+// parse request bodies (req.body)
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+// load controllers
+require('./lib/boot.js')(app, { verbose: !module.parent });
+
 
 module.exports = app;
