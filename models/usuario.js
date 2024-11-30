@@ -16,13 +16,25 @@ module.exports = (sequelize, DataTypes) => {
   usuario.init({
     nm_usuario: DataTypes.STRING,
     dt_usuario: DataTypes.DATE,
-    ct_email: DataTypes.STRING,
-    pw_usuario: DataTypes.STRING,
-    ds_tipo: DataTypes.STRING,
+    ct_email: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      isEmail:true,
+      unique:true
+    },
+    pw_usuario: {
+      type:DataTypes.STRING,
+      allowNull:false
+    },
+    ds_tipo: {
+      type:DataTypes.STRING,
+      defaultValue:'cliente'  
+    },
     ic_verificado: DataTypes.BOOLEAN
   }, {
     sequelize,
     modelName: 'usuario',
   });
+
   return usuario;
 };

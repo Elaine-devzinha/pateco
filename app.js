@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // load controllers
-require('./lib/boot.js')(app, { verbose: !module.parent });
+require('./lib/boot.js')(app, { verbose: true });
 
 
 module.exports = app;
