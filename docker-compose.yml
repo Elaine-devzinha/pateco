@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+  api:
+    build: ./api
+    restart: always
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      DB_HOST: ${DB_HOST} 
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      NODE_ENV: production 
+    ports:
+      - "3000:3000"
+    command: npm run start:deploy 
+  
+  web:
+    build: ./web
+    ports:
+      - 4200:4200
+    volumes:
+      - ./web:/project
+      - /project/node_modules
