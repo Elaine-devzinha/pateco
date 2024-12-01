@@ -10,14 +10,22 @@ const usuario = db.usuario
 
 exports.prefix = "/auth"
 
-exports.index = async function(req, res, next){
+exports.index = async function(req, res){
   const { email, password } = req.headers
-
+  var token;
   if(email && password){
     var result = await usuario.findOne({where:{ct_email:email}})
-    var checkPassword = await bcrypt.compare(password, usuario.pw_usuario || '')
+      console.log(result)
+
+    var checkPassword = await bcrypt.compare(password, result.pw_usuario)
     if(checkPassword){
-      res.send(200).send(result);
+      token = await jwt.sign({ userId: result.id }, 'your-secret-key', {
+        expiresIn: '1h',
+      });
+      res.send({
+        message:"Success loggin",
+        token
+      });
     }
     else{
       res.sendStatus(401);
@@ -26,6 +34,5 @@ exports.index = async function(req, res, next){
     res.sendStatus(403)
   }
 };
-
 
 

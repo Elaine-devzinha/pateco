@@ -16,16 +16,22 @@ module.exports = {
         type: Sequelize.DATE
       },
       ct_email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false,
+        isEmail:true,
+        unique:true
       },
       pw_usuario: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull:false
       },
       ds_tipo: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue:'cliente'  
       },
       ic_verificado: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue:false
       },
       createdAt: {
         allowNull: false,

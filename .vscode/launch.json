@@ -1,6 +1,28 @@
 {
     "configurations": [
         {
+            "command": "npm test",
+            "name": "Run npm test",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        
+        
+  
+        {
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "name": "nodemon",
+            "program": "test",
+            "request": "launch",
+            "restart": true,
+            "runtimeExecutable": "/home/mario/.nvm/versions/node/v22.11.0/bin/nodemon",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
             "name": "Attach by Process ID",
             "processId": "${command:PickProcess}",
             "request": "attach",
@@ -8,7 +30,6 @@
                 "<node_internals>/**"
             ],
             "type": "node"
-        }
-    
+        },
     ]
 }

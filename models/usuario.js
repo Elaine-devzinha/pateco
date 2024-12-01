@@ -9,9 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      // define association here
-    }
+     
+    // static associate(models) {
+    //   // define association here
+    // }
   }
   usuario.init({
     nm_usuario: DataTypes.STRING,
@@ -30,7 +31,10 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.STRING,
       defaultValue:'cliente'  
     },
-    ic_verificado: DataTypes.BOOLEAN
+    ic_verificado: {
+      type:DataTypes.BOOLEAN,
+      defaultValue:false
+    }
   }, {
     sequelize,
     modelName: 'usuario',
