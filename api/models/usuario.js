@@ -9,10 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-     
-    // static associate(models) {
-    //   // define association here
-    // }
+     //as associações não funcionam como deveriam, preciso encontrar
+     //forma de associa-las da maneira correta.
+    static associate(models) {
+      usuario.hasMany(models.tipo)
+    }
   }
   usuario.init({
     nm_usuario: DataTypes.STRING,
@@ -25,11 +26,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     pw_usuario: {
       type:DataTypes.STRING,
-      allowNull:false
+      allowNull:false,
+     
     },
-    ds_tipo: {
-      type:DataTypes.STRING,
-      defaultValue:'cliente'  
+    cd_tipo: {
+      type:DataTypes.INTEGER,
+      defaultValue:1  
     },
     ic_verificado: {
       type:DataTypes.BOOLEAN,
@@ -38,6 +40,34 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'usuario',
+    defaultScope: {
+        attributes: {
+          exclude: ['pw_usuario']
+        },
+      },
+    scopes:{
+      withPassword:{
+        attributes:{
+          include:['pw_usuario']
+        }
+      },
+      withScopes:{
+          include: [
+          {
+            model: sequelize.tipo,
+            as: 'tipos', // Alias para a tabela Tipo
+            attributes: ['nm_tipo'], // Seleciona apenas o nome do tipo
+            include: [
+              {
+                model: sequelize.permissao,
+                as: 'permissoes', // Alias para a tabela Permissao
+                attributes: ['vl_permissao'] // Seleciona apenas o nome da permissão
+              }
+            ]
+          }
+        ]
+      }
+    }
   });
 
   return usuario;

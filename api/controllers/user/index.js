@@ -4,23 +4,18 @@
  * Module dependencies.
  */
 let db = require('../../models')
-//let Protected = require('../../middlewares/authentication')
+let Protected = require('../../middlewares/authentication')
 const bcrypt = require('bcrypt')
 let usuario = db.usuario
 
 exports.create = async function(req,res){
   var hashedPassword;
-  const {nome, nascimento, email, password} = req.body
-  if(password){
-    hashedPassword = await bcrypt.hash(password, 12);
+  if(req.body.pw_usuario){
+    hashedPassword = await bcrypt.hash(req.body.pw_usuario, 12);
+    req.body.pw_usuario = hashedPassword
   }
-    usuario.create({
-      nm_usuario:nome,
-      dt_usuario:nascimento,
-      ct_email:email,
-      pw_usuario:hashedPassword
-    }).then((scc) => {
-      res.status(200).send(scc)
+    usuario.create( req.body ).then((scc) => {
+      res.status(200).send( scc )
     }).catch((sequelize) => {
       res.status(403).send(sequelize.errors)
     })
@@ -28,9 +23,39 @@ exports.create = async function(req,res){
   }
 
 
-exports.list = async function(req,res){
-  //await Protected(req,res,next)
+exports.list = async function(req,res, next){
 
   res.send(await usuario.findAll())
 }
 
+exports.show = async function(req,res){
+  const { user_id } = req.params
+  var result = await usuario.findOne({where:{
+      id:user_id
+    }})
+  if(result){
+    res.send(result)
+  }else{
+    res.sendStatus(404)
+  }
+}
+
+exports.update = async function(req,res){
+  const { user_id } = req.params
+  var result = await usuario.findOne({where:{
+      id:user_id
+    }})
+  if(result){
+    if(req.body.pw_usuario){
+      var hashedPassword = await bcrypt.hash(req.body.pw_usuario, 12);
+      req.body.pw_usuario = hashedPassword
+    }
+    
+    await result.update(req.body)
+    res.send(result)
+  }else{
+    res.sendStatus(404)
+  }
+}
+
+exports.list.before = (req,res,next) => Protected(req,res,next)

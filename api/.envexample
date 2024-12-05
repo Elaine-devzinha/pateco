@@ -4,3 +4,4 @@ DB_DATABASE=maresia
 DB_HOST=db
 DB_DIALECT=mysql
 DB_PORT=3306
+

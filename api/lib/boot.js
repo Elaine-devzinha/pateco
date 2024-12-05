@@ -19,6 +19,7 @@ module.exports = function(parent, options){
     var name = obj.name || name;
     var prefix = obj.prefix || '';
     var app = express();
+    var posfix;
     var handler;
     var method;
     var url;
@@ -44,6 +45,10 @@ module.exports = function(parent, options){
           method = 'put';
           url = '/' + name + '/:' + name + '_id';
           break;
+        case 'delete':
+          method = 'delete';
+          url = '/' + name + '/:' + name + '_id';
+          break;
         case 'create':
           method = 'post';
           url = '/' + name;
@@ -59,12 +64,13 @@ module.exports = function(parent, options){
 
       // setup
       handler = obj[key];
-      url = prefix + url;
+      posfix = obj[key].posfix || ''
+      url = prefix + url + posfix;
    
       
       // before middleware support
-      if (obj.before) {
-        app[method](url, obj.before, handler);
+      if (obj[key].before || obj.before) {
+        app[method](url, obj.before || obj[key].before, handler);
         verbose && console.log('     %s %s -> before -> %s', method.toUpperCase(), url, key);
       } else {
         app[method](url, handler);

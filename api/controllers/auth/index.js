@@ -6,33 +6,36 @@
 let db = require('../../models')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const usuario = db.usuario
 
 exports.prefix = "/auth"
 
 exports.index = async function(req, res){
-  const { email, password } = req.headers
+  const { ct_email, pw_usuario } = req.headers
   var token;
-  if(email && password){
-    var result = await usuario.findOne({where:{ct_email:email}})
-      console.log(result)
-
-    var checkPassword = await bcrypt.compare(password, result.pw_usuario)
-    if(checkPassword){
-      token = await jwt.sign({ userId: result.id }, 'your-secret-key', {
-        expiresIn: '1h',
-      });
-      res.send({
-        message:"Success loggin",
-        token
-      });
+  if(ct_email && pw_usuario){
+    var result = await db.usuario.scope('withPassword').findOne({where:{ct_email}})
+    if(result){
+    var checkPassword = await bcrypt.compare(pw_usuario, result.pw_usuario)
+      if(checkPassword){
+        token = await jwt.sign({ userId: result.id }, 'your-secret-key', {
+          expiresIn: '1h',
+        });
+        res.send({
+          message:"Success loggin",
+          token
+        });
+      }
+      else{
+        res.sendStatus(401);
+      }
+    }else{
+      res.sendStatus(404)
     }
-    else{
-      res.sendStatus(401);
-    }
+    
   }else{
     res.sendStatus(403)
   }
 };
 
 
+  exports.index.posfix = "login"
