@@ -12,6 +12,11 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+    await queryInterface.bulkInsert('funcoes', [{
+      vl_funcao: 'admin'
+    },{
+      vl_funcao: 'user'
+    }])
   },
 
   async down (queryInterface, Sequelize) {
@@ -21,5 +26,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+     await queryInterface.bulkDelete('funcoes', null, [{vl_funcao: 'admin'},{vl_funcao: 'user'}]);
   }
 };

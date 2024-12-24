@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       //    UsandoATabelaDeJunção: funcao_permissao
       //    comAChaveEstrangeira: cd_funcao
       //}
+      funcao.belongsToMany(models.grupo, {
+        through: 'funcao_grupo',
+        foreignKey: 'cd_funcao'
+      });
       funcao.belongsToMany(models.permissao, {
         through: 'funcao_permissao', 
         foreignKey: 'cd_funcao'

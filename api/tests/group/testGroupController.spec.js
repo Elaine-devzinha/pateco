@@ -10,6 +10,7 @@ const testUser = {
     ct_email: `danilo${random()}@baratao.com.br`,
     pw_usuario: '123456'
 }
+let group
 let token
 
 
@@ -40,6 +41,17 @@ describe('Initial Tests', () => {
             .get('/groups')
             .set('authorization', `${token}`)
             .expect('Content-Type', /json/)
+            .expect(200).then(res => {
+                group = res.body
+                console.log(res.body)
+            })
+    })
+    it("Show Group", () => {
+        return request(app)
+            .get('/group/'+group[0].id)
+            .set('authorization', `${token}`)
+            .expect('Content-Type', /json/)
             .expect(200)
     })
+    
 })

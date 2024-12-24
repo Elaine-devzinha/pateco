@@ -2,22 +2,33 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('grupos', {
+    await queryInterface.createTable('usuarios', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nm_grupo: {
+      nm_usuario: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
-      cd_funcao: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'funcoes',
-          key: 'id'
+      ct_email: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
+      },
+      pw_usuario: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      cd_grupo:{
+        type:Sequelize.INTEGER,
+        allowNull:false,
+        defaultValue:2,
+        references:{
+          model:'grupos',
+          key:'id'
         }
       },
       createdAt: {
@@ -33,6 +44,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('grupos');
+    await queryInterface.dropTable('usuarios');
   }
 };

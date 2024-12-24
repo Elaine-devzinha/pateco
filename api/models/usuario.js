@@ -14,33 +14,34 @@ module.exports = (sequelize, DataTypes) => {
       //    UsandoATabelaDeJunção: usuario_grupo
       //    comAChaveEstrangeira: cd_usuario
       //}
-      usuario.belongsToMany(models.grupo, {
-        through: 'usuario_grupo', 
-        foreignKey: 'cd_usuario'
+      usuario.belongsTo(models.grupo, {
+        foreignKey: 'cd_grupo'
       });
     }
   }
     usuario.init({
       nm_usuario: DataTypes.STRING,
       ct_email: DataTypes.STRING,
-      pw_usuario: DataTypes.STRING
+      pw_usuario: DataTypes.STRING,
+      cd_grupo: DataTypes.STRING
     }, {
       sequelize,
       modelName: 'usuario',
       scopes:{
         defaultScope:{
-          attributes: { exclude: ['pw_usuario'] }
+          attributes: { exclude: ['pw_usuario', 'cd_grupo'] }
         },
         incluirSenha:{
-          attributes: {}
+          attributes: { exclude: ['cd_grupo']}
         },
         incluirGrupos:{
-          include:  { 
-            model: sequelize.models.grupo, 
-            through: { 
-              attributes: ['nm_grupo'] 
-            } 
-          }
+          attributes: { exclude: ['cd_grupo']},
+          include: [
+            { 
+              model: sequelize.models.grupo, 
+              attributes:['id','nm_grupo']
+            }
+          ]
         }
       }
     }

@@ -14,13 +14,16 @@ exports.index = async function(req, res){
   var token;
   if(ct_email && pw_usuario){
     var result = await db.usuario.scope(['incluirSenha', 'incluirGrupos']).findOne({where:{ct_email}})
+
+           
+
     if(result){
     var checkPassword = await bcrypt.compare(pw_usuario, result.pw_usuario)
       if(checkPassword){
-        token = await jwt.sign({ userId: result.id }, 'your-secret-key', {
+        token = await jwt.sign({ id: result.id, scope:req.scope }, 'your-secret-key', {
           expiresIn: '1h',
         });
-        res.send({
+        res.json({
           message:"Success loggin",
           token
         });

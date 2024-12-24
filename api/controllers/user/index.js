@@ -15,19 +15,17 @@ exports.create = async function(req,res){
     req.body.pw_usuario = hashedPassword
   }
     
-    usuario.create( req.body ).then((scc) => {
-      scc.addGrupo(2)
-      res.status(201).send( scc )
+  usuario.create( req.body ).then((scc) => {
+      res.status(201).json( scc )
     }).catch((sequelize) => {
-      res.status(403).send(sequelize.errors)
+      res.status(403).json(sequelize.message || sequelize.errors)
     })
 
   }
 
 
 exports.list = async function(req,res){
-
-  res.send(await usuario.findAll())
+  res.json(await usuario.scope('incluirGrupos').findAll())
 }
 
 exports.show = async function(req,res){
@@ -36,7 +34,7 @@ exports.show = async function(req,res){
       id:user_id
     }})
   if(result){
-    res.send(result)
+    res.json(result)
   }else{
     res.sendStatus(404)
   }
@@ -54,7 +52,7 @@ exports.update = async function(req,res){
     }
     
     await result.update(req.body)
-    res.send(result)
+    res.json(result)
   }else{
     res.sendStatus(404)
   }

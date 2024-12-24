@@ -3,12 +3,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('usuario_grupo', {
-      cd_usuario: {
+    /**
+     * Add altering commands here.
+     *
+     * Example:
+     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
+     */
+     await queryInterface.createTable('funcao_grupo', {
+      cd_funcao: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         references: {
-          model: 'usuarios',
+          model: 'funcoes',
           key: 'id'
         }
       },
@@ -30,7 +36,7 @@ module.exports = {
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         type: Sequelize.DATE
       }
-    })
+     })
   },
 
   async down (queryInterface, Sequelize) {
@@ -40,6 +46,6 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-     await queryInterface.dropTable('usuario_grupo')  
+     await queryInterface.dropTable('funcao_grupo');
   }
 };
