@@ -2,30 +2,30 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('permissoes', {
+    await queryInterface.createTable('funcoes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      vl_permissao: {
-        type: Sequelize.STRING
+      vl_funcao: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
-     
       createdAt: {
         allowNull: false,
-        defaultValue:new Date(),
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        defaultValue:new Date(),
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         type: Sequelize.DATE
       }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('permissoes');
+    await queryInterface.dropTable('funcoes');
   }
 };

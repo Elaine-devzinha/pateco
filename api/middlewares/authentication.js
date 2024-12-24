@@ -9,7 +9,7 @@
     try {
         const decoded = jwt.verify(token, 'your-secret-key');
         req.userId = decoded.userId;
-        if(!req.scope){
+       /* if(!req.scope){
 
             db.usuario.findOne(
                 {where:{id:req.userId},
@@ -21,7 +21,7 @@
             .then(scc => console.log(scc))
             .catch(err => console.error('error:'+err))
       
-        }
+        }*/
         next();
     } catch (error) {
         res.status(401).json({ error,message: 'Invalid token' });

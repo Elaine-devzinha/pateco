@@ -13,7 +13,7 @@ exports.index = async function(req, res){
   const { ct_email, pw_usuario } = req.headers
   var token;
   if(ct_email && pw_usuario){
-    var result = await db.usuario.scope('withPassword').findOne({where:{ct_email}})
+    var result = await db.usuario.scope(['incluirSenha', 'incluirGrupos']).findOne({where:{ct_email}})
     if(result){
     var checkPassword = await bcrypt.compare(pw_usuario, result.pw_usuario)
       if(checkPassword){

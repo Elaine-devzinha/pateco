@@ -10,38 +10,26 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       nm_usuario: {
-        type: Sequelize.STRING
-      },
-      dt_usuario: {
-        defaultValue:new Date(),
-        type: Sequelize.DATE
+        type: Sequelize.STRING,
+        allowNull: false
       },
       ct_email: {
         type: Sequelize.STRING,
-        allowNull:false,
-        isEmail:true,
-        unique:true
+        unique: true,
+        allowNull: false
       },
       pw_usuario: {
         type: Sequelize.STRING,
-        allowNull:false
-      },
-      ds_tipo: {
-        type: Sequelize.STRING,
-        defaultValue:'cliente'  
-      },
-      ic_verificado: {
-        type: Sequelize.BOOLEAN,
-        defaultValue:false
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
-        defaultValue:new Date(),
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
-        defaultValue:new Date(),
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         type: Sequelize.DATE
       }
     });

@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch via NPM",
+            "request": "launch",
+            "runtimeArgs": [
+                "run-script",
+                "test"
+            ],
+            "runtimeExecutable": "npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+
+        {
             "name": "Attach by Process ID",
             "processId": "${command:PickProcess}",
             "request": "attach",   
@@ -20,7 +34,8 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/api/lib/boot.js",
+            "program": "${workspaceFolder}/api/node_modules/.bin/jest",
+            "args":["--passWithNoTests", "--detectOpenHandles", "--config", "api/jest.js"],
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]

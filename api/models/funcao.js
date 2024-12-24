@@ -3,28 +3,28 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class permissao extends Model {
+  class funcao extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      //permissao.pertenceAVarios ( funcao, {
+      //funcao.pertenceAVarios ( permissao, {
       //    UsandoATabelaDeJunção: funcao_permissao
-      //    comAChaveEstrangeira: cd_permissao
+      //    comAChaveEstrangeira: cd_funcao
       //}
-      permissao.belongsToMany(models.funcao, {
+      funcao.belongsToMany(models.permissao, {
         through: 'funcao_permissao', 
-        foreignKey: 'cd_permissao'
+        foreignKey: 'cd_funcao'
       });
     }
   }
-  permissao.init({
-    vl_permissao: DataTypes.STRING
+  funcao.init({
+    vl_funcao: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'permissao',
+    modelName: 'funcao',
   });
-  return permissao;
+  return funcao;
 };
