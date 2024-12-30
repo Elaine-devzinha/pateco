@@ -16,7 +16,7 @@ let token
 describe('Initial Tests', () => {
     it("Create User", () => {
         return request(app)
-            .post('/user')
+            .post('/auth/register')
             .send(testUser)
             .expect('Content-Type', /json/)
             .expect(201).then(res => {

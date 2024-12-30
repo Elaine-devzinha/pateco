@@ -17,10 +17,12 @@ exports.index = async function(req, res){
 
            
 
-    if(result){
+     if(result){
     var checkPassword = await bcrypt.compare(pw_usuario, result.pw_usuario)
       if(checkPassword){
-        token = await jwt.sign({ id: result.id, scope:req.scope }, 'your-secret-key', {
+        //add  
+        
+        token = await jwt.sign({ id: result.id, role: result.grupo.nm_grupo }, 'your-secret-key', {
           expiresIn: '1h',
         });
         res.json({
@@ -40,5 +42,8 @@ exports.index = async function(req, res){
   }
 };
 
+exports.create = (req,res) => {return require('../user').create(req,res)}
 
-  exports.index.posfix = "login"
+exports.index.posfix = "login"
+exports.create.posfix = "register"
+

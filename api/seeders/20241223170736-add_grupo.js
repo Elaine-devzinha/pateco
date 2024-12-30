@@ -15,12 +15,12 @@ module.exports = {
     */
     await queryInterface.bulkInsert('grupos', [
       {
-        nm_grupo: 'Administrador',
+        nm_grupo: 'Administradores',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        nm_grupo: 'Usuario',
+        nm_grupo: 'Usuarios',
         createdAt: new Date(),
         updatedAt: new Date()
       }
@@ -37,8 +37,8 @@ module.exports = {
     await queryInterface.bulkDelete('grupos', null, {
       where: {
         nm_grupo: [
-          'Administrador', 
-          'Usuario'
+          'Administradores', 
+          'Usuarios'
           ]
         }
       }
