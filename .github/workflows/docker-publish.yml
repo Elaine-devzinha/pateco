@@ -5,9 +5,12 @@ on:
     branches: [ "main" ]
 
 env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.actor }}/<image-name>:latest
+  DB_USERNAME: vintalie
+  DB_PASSWORD: 764066*
+  DB_DATABASE: maresia
+  DB_HOST: db
+  DB_DIALECT: mysql
+  DB_PORT: 3306
 
 jobs:
   build:
