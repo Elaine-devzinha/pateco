@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "npx sequelize db:create && npx sequelize-cli db:migrate && jest --passWithNoTests --detectOpenHandles",
-    "start:deploy": "./node_modules/.bin/sequelize-cli db:create && npx sequelize-cli db:migrate && node ./bin/www",
-    "start": "node ./bin/www"
+    "api:test": "npx sequelize db:create && npx sequelize-cli db:migrate && jest --passWithNoTests --detectOpenHandles",
+    "api:setup": "npm install && npx sequelize-cli sequelize-cli db:create && npx sequelize-cli db:migrate && node ./bin/www",
+    "api:start": "node ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

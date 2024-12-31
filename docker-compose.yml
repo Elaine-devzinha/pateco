@@ -23,7 +23,7 @@ services:
       NODE_ENV: production 
     ports:
       - "3000:3000"
-    command: npm run start:deploy 
+    command: npm run start:start 
     volumes:
       - ./api:/usr/src/app
   
