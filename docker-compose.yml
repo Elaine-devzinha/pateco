@@ -16,7 +16,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /api:/usr/src/app
+      - ./api:/usr/src/app
   db:
     image: mysql:latest
     environment:
