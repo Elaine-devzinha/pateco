@@ -1,5 +1,22 @@
 
 services:
+  api:
+    build: ./api
+    restart: always
+    depends_on:
+      db:
+        condition: service_started
+        restart: true
+    environment:
+      DB_HOST: ${DB_HOST} 
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      NODE_ENV: production 
+    ports:
+      - "3000:3000"
+    volumes:
+      - /api:/usr/src/app
   db:
     image: mysql:latest
     environment:
@@ -9,23 +26,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
-  api:
-    build: ./api
-    restart: always
-    depends_on:
-      db:
-        condition: service_started
-    environment:
-      DB_HOST: ${DB_HOST} 
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_DATABASE: ${DB_DATABASE}
-      NODE_ENV: production 
-    ports:
-      - "3000:3000"
-    command: npm run start:start 
-    volumes:
-      - ./api:/usr/src/app
+
   
   web:
     build: ./web

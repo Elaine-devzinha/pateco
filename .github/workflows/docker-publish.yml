@@ -17,4 +17,4 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Build and push Docker image
-        run: docker compose up -d
+        run: docker compose up -d --build
