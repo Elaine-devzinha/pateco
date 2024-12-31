@@ -31,8 +31,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-<<<<<<< HEAD
-        run: docker compose build
-=======
-        run: docker compose up 
->>>>>>> 3432590 (✨:switch docker build to docker compose up)
+          run: docker compose build
+          run: docker compose up 
