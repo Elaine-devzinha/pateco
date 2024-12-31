@@ -16,5 +16,9 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+      - name: Sync to github repository
+        run: git pull
       - name: Build and push Docker image
         run: docker compose up -d --build
+
+
