@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "npx sequelize db:create && npx sequelize-cli db:migrate && jest --passWithNoTests --detectOpenHandles",
-    "start:deploy": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && node ./bin/www",
+    "start:deploy": "./node_modules/.bin/sequelize-cli db:create && npx sequelize-cli db:migrate && node ./bin/www",
     "start": "node ./bin/www"
   },
   "dependencies": {
