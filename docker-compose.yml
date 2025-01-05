@@ -12,11 +12,11 @@ services:
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: ${DB_DATABASE}
-      NODE_ENV: production 
+      DB_DIALECT: ${DB_DIALECT}
+      NODE_ENV: "production"
     ports:
       - "3000:3000"
-    volumes:
-      - ./api:/usr/src/app
+
   db:
     image: mysql:latest
     environment:
