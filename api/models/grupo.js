@@ -11,26 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       
-      grupo.belongsToMany(models.funcao, {
-        through: 'funcao_grupo',
-        foreignKey: 'cd_grupo'
-      });
+     
     }
   }
   grupo.init({
     nm_grupo: DataTypes.STRING,
-    
   }, {
     sequelize,
     modelName: 'grupo',
-    scopes:{
-      incluirFuncao:{
-        include:  { 
-          model: sequelize.models.funcao, 
-          attributes:['id','vl_funcao']
-        }
-      }
-    }
   });
   return grupo;
 };
