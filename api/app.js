@@ -5,7 +5,6 @@
  */
 
 var express = require('express');
-var path = require('path');
 var logger = require('morgan');
 
 var app = express();
@@ -14,11 +13,12 @@ var app = express();
 app.use(logger('dev'));
 // suporte a json
 app.use(express.json());
-// parse request bodies (req.body)
+
+//Usado para analisar variaveis dentro da URL
 app.use(express.urlencoded({ extended: false }));
 
-// load controllers
+// carrega os controladores usando o modulo de boot.js
 require('./lib/boot.js')(app, { verbose: true });
 
-
+//exporta o servidor para /bin/www
 module.exports = app;
