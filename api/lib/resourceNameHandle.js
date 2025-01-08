@@ -4,6 +4,8 @@
 
 module.exports = function (name, key) {
     var resource;
+    //simples switch case para deterimar qual o escopo atual
+    // usando o padrão CRUD
     switch (key) {
         case 'show':
           resource = 'read';
@@ -30,7 +32,8 @@ module.exports = function (name, key) {
         default:
           throw new Error('Rota Desconhecida: ' + name + '.' + key);
       }
-    return  function (req, res, next) {
+      //retorna a função que sera usada peloexpress (middleware)
+    return function (req, res, next) {
         req.resource = name + '.' + resource
         next()
     }

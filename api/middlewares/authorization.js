@@ -1,3 +1,5 @@
+'use strict'
+
 const permissions = require('../lib/permissions')
 
 module.exports = (req,res,next) => {
