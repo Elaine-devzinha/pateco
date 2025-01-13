@@ -5,12 +5,12 @@
  */
 
 var express = require('express');
-var logger = require('morgan');
+//var logger = require('morgan'); / veja a necessidade de tirar essa linha
 
 var app = express();
 
-// logs no terminal
-app.use(logger('dev'));
+//logs no terminal
+//app.use(logger('dev')); // e essa linha
 // suporte a json
 app.use(express.json());
 

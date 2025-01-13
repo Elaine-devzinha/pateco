@@ -28,10 +28,13 @@ services:
       - "3306:3306"
 
   
-  web:
+  php:
     build: ./web
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
     ports:
-      - 4200:4200
+    - "80:80"  
+    - "443:443"
     volumes:
-      - ./web:/project
-      - /project/node_modules
+    - ./web/www:/var/www/html
+
