@@ -1,0 +1,22 @@
+FROM openresty/openresty:alpine-fat
+
+RUN apk add git
+
+RUN apk add mariadb-dev
+
+RUN apk add mysql
+
+RUN apk add mysql-dev
+
+RUN /usr/local/openresty/luajit/bin/luarocks install lua-resty-jwt
+
+RUN /usr/local/openresty/luajit/bin/luarocks install lua-resty-mysql
+
+RUN /usr/local/openresty/luajit/bin/luarocks install lua-cjson
+
+RUN /usr/local/openresty/luajit/bin/luarocks install lua-resty-rsa
+
+# RUN /usr/local/openresty/luajit/bin/luarocks install luasql-mysql MYSQL_INCDIR=/usr/include/mysql
+
+
+RUN /usr/local/openresty/luajit/bin/luarocks install bcrypt
