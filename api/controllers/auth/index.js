@@ -16,7 +16,7 @@ exports.index = async function(req, res){
     if(result){
       var checkPassword = await bcrypt.compare(pw_usuario, result.pw_usuario)
       if(checkPassword){
-        token = await jwt.sign({ id: result.id, role: result.grupo.nm_grupo }, 'your-secret-key', {
+        token = await jwt.sign({ id: result.id, role: result.grupo.nm_grupo }, 'abracadabra', {
           expiresIn: '1h',
         });
         res.json({
@@ -42,11 +42,11 @@ exports.create = (req,res) => {return require('../user').create(req,res)}
 exports.delete = async (req,res) => {
   var token = req.headers.authorization
   if(token){
-    const decoded = jwt.verify(token, 'your-secret-key');
+    const decoded = jwt.verify(token, 'abracadabra');
     let id = decoded.id;
     let role = decoded.role;
 
-    token = await jwt.sign({ id, role }, 'your-secret-key', {
+    token = await jwt.sign({ id, role }, 'abracadabra', {
       expiresIn: '1s',
     });
     res.json({
