@@ -1,6 +1,7 @@
 
 services:
   api:
+    container_name: api
     build: ./api
     restart: always
     depends_on:
@@ -10,15 +11,17 @@ services:
     environment:
       DB_HOST: ${DB_HOST} 
       DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PASSWORD: ${DB_PASSWORD} 
       DB_DATABASE: ${DB_DATABASE}
       DB_DIALECT: ${DB_DIALECT}
       NODE_ENV: "development"
     ports:
       - "3000:3000"
+    command: npm run api:start
 
   db:
     image: mysql:latest
+    container_name: db
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
@@ -26,15 +29,36 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
+    volumes:
+      - "./db/custom.cnf:/etc/mysql/conf.d/custom.cnf"
 
-  
+
+  openresty:
+    build: ./nginx
+    container_name: server
+    environment:
+      DB_HOST: ${DB_HOST} 
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_DIALECT: ${DB_DIALECT}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+     - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+     - "./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf"
+     - "./nginx/lua:/home/openresty/lua"
+     - "./nginx/lua/lib:/usr/local/openresty/site/lualib/lib"
+
   php:
+    container_name: php
     build: ./web
     extra_hosts:
     - "host.docker.internal:host-gateway"
     ports:
-    - "80:80"  
-    - "443:443"
+    - "8080:80"  
+    - "8443:443"
     volumes:
     - ./web/www:/var/www/html
 

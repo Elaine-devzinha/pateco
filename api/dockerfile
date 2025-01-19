@@ -8,6 +8,6 @@ EXPOSE 3000
 
 RUN npm install
 
-CMD npm run api:setup && npm run api:start
+CMD npm run api:setup 
 
 
