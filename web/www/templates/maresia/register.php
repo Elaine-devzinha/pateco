@@ -4,7 +4,7 @@
         <h2 align="center">Registrar-se</h2>
         <form action="" method="post">
             <label>Nome
-            <input name="nome" type="text"></label>
+            <input name="name" type="text"></label>
             <label>Email
             <input name="email" type="text"></label>
             <label>Senha
