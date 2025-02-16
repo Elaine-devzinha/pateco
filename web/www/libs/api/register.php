@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     );
     $data = json_encode($data);
-    $url = 'http://api:3000/auth/register';
+    $url = 'http://server/auth/register';
     $options = array(
         'http' => array(
             'header'   =>  "Content-type: application/json\r\n",
