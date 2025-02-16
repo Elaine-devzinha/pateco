@@ -17,6 +17,7 @@ function _M.login()
     if valid_credentials then
         
         local search = db.find_user_by_email(ct_email)
+
         if (search == nil) or (search == false) then
             helpers.response(ngx.HTTP_NOT_FOUND, "Not Found")
         end
@@ -37,5 +38,6 @@ function _M.login()
         
 
 end
+
 
 return _M
