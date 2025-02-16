@@ -19,9 +19,10 @@ end
 function _M.receive()
     ngx.req.read_body()
     local data = ngx.req.get_body_data()
-    if data then
+    if data ~= nil then
         return json.decode(data)
     end
+    return nil
 end
 
 function _M.generate_token(id,role)
@@ -41,6 +42,7 @@ function _M.generate_token(id,role)
     return token;
 end
 
+-- not in use
 function _M.current_time()
     local time = os.time()
     local milliseconds = math.floor(socket.gettime() * 1000) % 1000
