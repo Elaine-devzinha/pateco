@@ -1,5 +1,5 @@
 local _M = {}
-
+local ngx = require "ngx"
 local secret_key = os.getenv("SECRET") or "abracadabra"
 local json = require "cjson"
 local jwt = require "resty.jwt"
