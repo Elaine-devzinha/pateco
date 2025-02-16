@@ -2,7 +2,7 @@ local _M = {}
 local ngx = require "ngx"
 local db = require("./lib/db")
 local bcrypt = require "bcrypt"
-local helpers = require("./lib/auth-flow/helpers")
+local helpers = require("./lib/helpers")
 
 function _M.register()
 

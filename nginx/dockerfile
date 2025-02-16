@@ -20,3 +20,5 @@ RUN /usr/local/openresty/luajit/bin/luarocks install lua-resty-rsa
 
 
 RUN /usr/local/openresty/luajit/bin/luarocks install bcrypt
+
+RUN /usr/local/openresty/luajit/bin/luarocks install luasocket

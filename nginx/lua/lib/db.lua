@@ -1,5 +1,7 @@
 local mysql = require "resty.mysql"
 local ngx = require "ngx"
+local helpers = require("./lib/helpers")
+
 -- Módulo exportável
 local _M = {}
 
