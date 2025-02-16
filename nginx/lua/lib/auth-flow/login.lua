@@ -8,10 +8,8 @@ local json = require "cjson"
 
 function _M.login()
     local headers = ngx.req.get_headers()
-    -- local ct_email = headers["ct_email"]
-    -- local pw_usuario = headers["pw_usuario"]
-    local ct_email = "danilo@baratao.com"
-    local pw_usuario = "764066"
+    local ct_email = headers["ct_email"]
+    local pw_usuario = headers["pw_usuario"]
     local valid_credentials = (ct_email ~= nil or ct_email ~= '') and (pw_usuario ~= nil or pw_usuario ~= '')
     if valid_credentials == false then
         helpers.response(ngx.HTTP_FORBIDDEN, "Forbidden")
