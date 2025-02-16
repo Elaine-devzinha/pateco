@@ -46,62 +46,59 @@ function _M.find_user_by_email(email)
         conn = _M.connect()
     end
     if conn ~= nil then
-    if email == nil then
-        return false
+        if email == nil then
+            return false
+        end
+        -- Consulta SQL preparada
+        local query = string.format(
+            "SELECT usuarios.*, grupos.* FROM usuarios JOIN grupos ON usuarios.cd_grupo = grupos.id WHERE ct_email = '%s'",
+            email)
+
+        -- Executa a consulta
+        local res, err, errcode, sqlstate = conn:query(query)
+
+        if not res then
+            ngx.log(ngx.ERR, "Erro ao executar consulta: " .. err)
+            return false
+        end
+
+        if #res == 0 then
+            ngx.log(ngx.INFO, "Nenhum usuário encontrado com o email: " .. email)
+            return false
+        end
+
+        ngx.log(ngx.INFO, "Usuário encontrado: ", res[1].ct_email, res[1].ct_nome)
+
+        return res[1]
     end
-    -- Consulta SQL preparada
-    local query = string.format(
-        "SELECT usuarios.*, grupos.* FROM usuarios JOIN grupos ON usuarios.cd_grupo = grupos.id WHERE ct_email = '%s'",
-        email)
-
-    -- Executa a consulta
-    local res, err, errcode, sqlstate = conn:query(query)
-
-    if not res then
-        ngx.log(ngx.ERR, "Erro ao executar consulta: " .. err)
-        return false
-    end
-
-    if #res == 0 then
-        ngx.log(ngx.INFO, "Nenhum usuário encontrado com o email: " .. email)
-        return false
-    end
-
-    ngx.log(ngx.INFO, "Usuário encontrado: ", res[1].ct_email, res[1].ct_nome)
-
-    return res[1]
-end
 end
 
 
 -- Função para adicionar um usuário
-function _M.add_user(id, nm_usuario, ct_email, pw_usuario)
+function _M.add_user(nm_usuario, ct_email, pw_usuario)
     -- Verifica se a conexão está ativa, caso contrário, conecta
     if conn == nil then
         conn = _M.connect()
     end
     if conn ~= nil then
+        if nm_usuario == nil or ct_email == nil or pw_usuario == nil then
             return false
         end
-    end
-    if id == nil or nm_usuario == nil or ct_email == nil or pw_usuario == nil then
-        return false
-    end
-    local createdAt = helpers.current_time()
-    local updatedAt = createdAt
-    local query = string.format(
-        "INSERT INTO usuarios (id, nm_usuario, ct_email, pw_usuario, createdAt, updatedAt) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
-        id, nm_usuario, ct_email, pw_usuario, createdAt, updatedAt)
+        -- local createdAt = helpers.current_time()
+        -- local updatedAt = createdAt
+        local query = string.format(
+            "INSERT INTO usuarios (id, nm_usuario, ct_email, pw_usuario) VALUES (DEFAULT, '%s', '%s', '%s');",
+            nm_usuario, ct_email, pw_usuario)
 
-    -- Executa a consulta
-    local res, err, errcode, sqlstate = conn:query(query)
+        -- Executa a consulta
+        local res, err, errcode, sqlstate = conn:query(query)
 
-    if not res then
-        ngx.log(ngx.ERR, "Erro ao executar consulta: " .. err)
-        return false
-    end
+        if not res then
+            ngx.log(ngx.ERR, "Erro ao executar consulta: " .. err)
+            return false
+        end
 
-    ngx.log(ngx.INFO, "Usuário adicionado com sucesso: ", ct_email)
+        ngx.log(ngx.INFO, "Usuário adicionado com sucesso: ", ct_email)
         conn:close()
         return res.insert_id
     end
