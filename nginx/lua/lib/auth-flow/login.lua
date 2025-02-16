@@ -34,9 +34,9 @@ function _M.login()
                 token = token
             }))
             ngx.exit(ngx.OK)
-        end
+        end    
     end
-        
+
 
 end
 
