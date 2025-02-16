@@ -21,7 +21,8 @@ function _M.login()
         if (search == nil) or (search == false) then
             helpers.response(ngx.HTTP_NOT_FOUND, "Not Found")
         end
-        if (search.pw_usuario ~= nil) and (bcrypt.verify(pw_usuario, search.pw_usuario)) then
+    
+        if (search ~= nil) and (bcrypt.verify(pw_usuario, search.pw_usuario)) then
 
             helpers.response(ngx.OK, "Success")
 
