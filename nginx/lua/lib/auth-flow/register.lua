@@ -19,7 +19,7 @@ function _M.register()
         if valid_credentials then
 
                 local hashed_password = bcrypt.digest(pw_usuario, 12)
-                local user = db.add_user(nm_usuario,ct_email, pw_usuario)
+            local user = db.add_user(nm_usuario,ct_email, hashed_password)
                 if user then
                     helpers.response(ngx.HTTP_OK, "Success Register",{
                         user_id = user
