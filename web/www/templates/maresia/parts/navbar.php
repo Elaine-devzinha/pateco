@@ -31,7 +31,7 @@
                     <a href="/login.php">Login</a>
                 </li>
                 <li>
-                    <a href="/register">Registrar-se</a>
+                    <a href="/register.php">Registrar-se</a>
                 </li>
             <?php
             }

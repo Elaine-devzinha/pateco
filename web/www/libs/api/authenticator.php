@@ -4,7 +4,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $url = 'http://host.docker.internal:3000/auth/login';
+    $url = 'http://server/auth/login';
+    // $url = 'http://host.docker.internal:3000/auth/login';
     $options = array(
         'http' => array(
             'header'  => "ct_email: $email\r\n" .
