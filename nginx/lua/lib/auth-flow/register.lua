@@ -18,18 +18,21 @@ function _M.register()
         end
         if valid_credentials then
 
-                local hashed_password = bcrypt.digest(pw_usuario, 12)
+            local hashed_password = bcrypt.digest(pw_usuario, 12)
             local user = db.add_user(nm_usuario,ct_email, hashed_password)
-                if user then
-                    helpers.response(ngx.HTTP_OK, "Success Register",{
-                        user_id = user
-                    })
-                end
+            if user then
+                helpers.response(ngx.HTTP_OK, "Success Register",{
+                    user_id = user
+                })
+            end
             if user == false or user ~= nil then
                 helpers.response(ngx.HTTP_BAD_REQUEST, "Bad Request")
             end
         end
-   end
+    end
+    if data == nil then
+        helpers.response(ngx.HTTP_BAD_REQUEST, "Bad Request")
+    end
 end
 
 return _M
