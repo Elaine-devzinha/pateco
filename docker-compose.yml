@@ -1,3 +1,9 @@
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+
 
 services:
   api:
@@ -15,6 +21,9 @@ services:
       DB_DATABASE: ${DB_DATABASE}
       DB_DIALECT: ${DB_DIALECT}
       NODE_ENV: "development"
+    networks:
+      default:
+        ipv4_address: 172.18.0.4
     ports:
       - "3000:3000"
     volumes:
@@ -29,6 +38,9 @@ services:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
+    networks:
+      default:
+        ipv4_address: 172.18.0.3
     ports:
       - "3306:3306"
     volumes:
@@ -44,6 +56,9 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: ${DB_DATABASE}
       DB_DIALECT: ${DB_DIALECT}
+    networks:
+      default:
+        ipv4_address: 172.18.0.2
     ports:
       - "80:80"
       - "443:443"
@@ -58,6 +73,9 @@ services:
     build: ./web
     extra_hosts:
     - "host.docker.internal:host-gateway"
+    networks:
+      default:
+        ipv4_address: 172.18.0.5
     ports:
     - "8080:80"  
     - "8443:443"
