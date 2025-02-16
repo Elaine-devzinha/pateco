@@ -1,16 +1,13 @@
+local _M = {}
+
 local mysql = require "resty.mysql"
 local ngx = require "ngx"
 local helpers = require("./lib/helpers")
-
--- Módulo exportável
-local _M = {}
-
--- Obtém informações de conexão a partir de variáveis de ambiente
-local db_host = os.getenv("DB_HOST") or "127.0.0.1" 
-local db_port = tonumber(os.getenv("DB_PORT")) or 3306 
-local db_user = os.getenv("DB_USERNAME") or "root" 
-local db_password = os.getenv("DB_PASSWORD") or "" 
-local db_name = os.getenv("DB_DATABASE") or "nome_do_banco" 
+local db_host = os.getenv("DB_HOST") or "127.0.0.1"
+local db_port = tonumber(os.getenv("DB_PORT")) or 3306
+local db_user = os.getenv("DB_USERNAME") or "root"
+local db_password = os.getenv("DB_PASSWORD") or ""
+local db_name = os.getenv("DB_DATABASE") or "nome_do_banco"
 -- Variável de conexão global
 local conn
 
@@ -22,7 +19,7 @@ function _M.connect()
         return nil
     end
 
-    db:set_timeout(1000)  -- Tempo limite de conexão (em milissegundos)
+    db:set_timeout(1000)
 
     local ok, err, errcode, sqlstate = db:connect{
         host = db_host,
@@ -56,7 +53,9 @@ function _M.find_user_by_email(email)
         return false
     end
     -- Consulta SQL preparada
-    local query = string.format("SELECT usuarios.*, grupos.* FROM usuarios JOIN grupos ON usuarios.cd_grupo = grupos.id WHERE ct_email = '%s'", email)
+    local query = string.format(
+        "SELECT usuarios.*, grupos.* FROM usuarios JOIN grupos ON usuarios.cd_grupo = grupos.id WHERE ct_email = '%s'",
+        email)
 
     -- Executa a consulta
     local res, err, errcode, sqlstate = conn:query(query)
@@ -73,8 +72,38 @@ function _M.find_user_by_email(email)
 
     ngx.log(ngx.INFO, "Usuário encontrado: ", res[1].ct_email, res[1].ct_nome)
 
-    -- Retorna o primeiro resultado encontrado
     return res[1]
 end
 
+
+-- Função para adicionar um usuário
+function _M.add_user(id, nm_usuario, ct_email, pw_usuario)
+    -- Verifica se a conexão está ativa, caso contrário, conecta
+    if conn == nil then
+        conn = _M.connect()
+        if not conn then
+            return false
+        end
+    end
+    if id == nil or nm_usuario == nil or ct_email == nil or pw_usuario == nil then
+        return false
+    end
+    local createdAt = helpers.current_time()
+    local updatedAt = createdAt
+    local query = string.format(
+        "INSERT INTO usuarios (id, nm_usuario, ct_email, pw_usuario, createdAt, updatedAt) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')",
+        id, nm_usuario, ct_email, pw_usuario, createdAt, updatedAt)
+
+    -- Executa a consulta
+    local res, err, errcode, sqlstate = conn:query(query)
+
+    if not res then
+        ngx.log(ngx.ERR, "Erro ao executar consulta: " .. err)
+        return false
+    end
+
+    ngx.log(ngx.INFO, "Usuário adicionado com sucesso: ", ct_email)
+
+    return true
+end
 return _M
