@@ -8,8 +8,7 @@ local db_port = tonumber(os.getenv("DB_PORT")) or 3306
 local db_user = os.getenv("DB_USERNAME") or "root"
 local db_password = os.getenv("DB_PASSWORD") or ""
 local db_name = os.getenv("DB_DATABASE") or "nome_do_banco"
--- Variável de conexão global
-local conn
+local conn = nil
 
 -- Função para conectar ao banco de dados
 function _M.connect()
@@ -45,10 +44,8 @@ function _M.find_user_by_email(email)
     -- Verifica se a conexão está ativa, caso contrário, conecta
     if conn == nil then
         conn = _M.connect()
-        if not conn then
-            return false
-        end
     end
+    if conn ~= nil then
     if email == nil then
         return false
     end
@@ -74,6 +71,7 @@ function _M.find_user_by_email(email)
 
     return res[1]
 end
+end
 
 
 -- Função para adicionar um usuário
@@ -81,7 +79,8 @@ function _M.add_user(id, nm_usuario, ct_email, pw_usuario)
     -- Verifica se a conexão está ativa, caso contrário, conecta
     if conn == nil then
         conn = _M.connect()
-        if not conn then
+    end
+    if conn ~= nil then
             return false
         end
     end
@@ -103,7 +102,8 @@ function _M.add_user(id, nm_usuario, ct_email, pw_usuario)
     end
 
     ngx.log(ngx.INFO, "Usuário adicionado com sucesso: ", ct_email)
-
-    return true
+        conn:close()
+        return res.insert_id
+    end
 end
 return _M
