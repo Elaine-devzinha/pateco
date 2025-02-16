@@ -120,7 +120,7 @@ module.exports = function(server, options){
       //se o objeto for definido como index, trate a url da seguinte forma
       if(key != 'index') url =  url + '/' + posfix
       //Se não, a url terá esse outro formato, esse foi um hotfix
-      if(key == 'index') url = prefix + url + posfix
+      if(key == 'index') url = prefix + "/" + name + "/"  + posfix
       //middleware para nomear os controlladores e exporta-los em req.scope
       //vou ver de tirar isso daqui pelo amor de deus que ideia de girico
       app[method](url, require('../lib/resourceNameHandle')(name, key));

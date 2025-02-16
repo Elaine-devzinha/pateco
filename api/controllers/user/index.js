@@ -15,9 +15,20 @@ exports.before = [
 ]
 
 
+exports.index = async function(req,res){
+  var result = await usuario.scope(['incluirGrupos','excluirSenha']).findOne({where:{
+      id:req.id
+    }})
+  if(result){
+    res.json(result)
+  }else{
+    res.sendStatus(404)
+  }
+}
+
 
 exports.list = async function(req,res){
-  res.json(await usuario.scope('incluirGrupos').findAll())
+  res.json(await usuario.scope('incluirGrupos', 'excluirSenha').findAll())
 }
 exports.create = async function(req,res){
   var hashedPassword;
@@ -34,7 +45,7 @@ exports.create = async function(req,res){
 }
 exports.show = async function(req,res){
   const { user_id } = req.params
-  var result = await usuario.findOne({where:{
+  var result = await usuario.scope(['incluirGrupos','excluirSenha']).findOne({where:{
       id:user_id
     }})
   if(result){

@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "api:test": "jest --passWithNoTests --detectOpenHandles",
+    "api:dev": "npx nodemon ./bin/www",
     "api:setup": "npx sequelize-cli db:create && npx sequelize-cli db:migrate",
     "api:start": "node ./bin/www"
   },

@@ -23,13 +23,22 @@ module.exports = (sequelize, DataTypes) => {
       nm_usuario: DataTypes.STRING,
       ct_email: DataTypes.STRING,
       pw_usuario: DataTypes.STRING,
-      cd_grupo: DataTypes.STRING
+      cd_grupo: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'grupos',
+          key: 'id'
+        }
+      }
     }, {
       sequelize,
       modelName: 'usuario',
       scopes:{
         defaultScope:{
           attributes: { exclude: ['pw_usuario', 'cd_grupo'] }
+        },
+        excluirSenha: {
+          attributes: { exclude: ['pw_usuario'] }
         },
         incluirSenha:{
           attributes: { exclude: ['cd_grupo']}

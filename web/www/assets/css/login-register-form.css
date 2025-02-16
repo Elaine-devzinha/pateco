@@ -1,0 +1,23 @@
+.login, .register{
+    width:380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding:6px 0;
+}
+.login form,.register form{
+    padding:8px 0;
+    width:fit-content
+}
+.login form label,.register form label{
+    display:block
+}
+.login form button,.register form button{
+    margin:auto 0;
+}
+.login .footer, .register.footer{
+    display: flex;
+    padding-top:8px;
+    justify-content: space-between;
+}
