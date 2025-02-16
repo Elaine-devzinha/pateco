@@ -2,7 +2,7 @@ local ngx = require "ngx"
 
 local auth = {
     login = require("./lib/auth-flow/login").login,
-    -- register = require("./lib/auth-flow/register").register,
+    register = require("./lib/auth-flow/register").register,
     verify = require("./lib/auth-flow/verify").verify_token
 };
 
@@ -17,7 +17,7 @@ local function handle_request()
         auth.login()
     end
     if  uri == '/auth/register' then
-        ngx.say("hi from register");        
+        auth.register()        
     end
     if  uri == '/auth/verify' then
         auth.verify() 
