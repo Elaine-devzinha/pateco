@@ -17,8 +17,7 @@ function _M.register()
             helpers.response(ngx.HTTP_FORBIDDEN, "Forbidden")
         end
         if valid_credentials then
-            local search = db.find_user_by_email(ct_email)
-            if (search == nil) or (search == false) then
+
                 local hashed_password = bcrypt.digest(pw_usuario, 12)
                 local user = db.add_user(nm_usuario,ct_email, pw_usuario)
                 if user then
@@ -26,9 +25,8 @@ function _M.register()
                         user_id = user
                     })
                 end
-            end
-            if (search ~= nil) then
-                helpers.response(ngx.HTTP_CONFLICT, "Conflict")
+            if user == false or user ~= nil then
+                helpers.response(ngx.HTTP_BAD_REQUEST, "Bad Request")
             end
         end
    end
