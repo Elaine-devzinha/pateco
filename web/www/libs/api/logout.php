@@ -2,7 +2,7 @@
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Handle the POST request
 
-    $url = 'http://host.docker.internal:3000/auth/logout';
+    $url = 'http://server/auth/logout';
     $options = array(
         'http' => array(
             'header'  => "authorization:".$_COOKIE['token']."\r\n",

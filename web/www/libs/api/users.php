@@ -1,13 +1,12 @@
 <?php
-
 function get_user($user_id = ""){
-    $url = 'http://host.docker.internal:3000/user';
+    $url = 'http://server/api/user';
     if($user_id != ""){
     $url = $url.'/'.$user_id;
     }
     $options = array(
         'http' => array(
-            'header'  => "Authorization: ".$_COOKIE["token"]."\r\n",
+            'header'  => "Authorization: Bearer ".$_COOKIE["token"]."\r\n",
             'method'  => 'GET',
         ),
     );
@@ -16,6 +15,7 @@ function get_user($user_id = ""){
 
     if ($result === FALSE) {
         // Handle error
+        echo $result;
         echo "Error in request";
     } else {
         // Handle success
