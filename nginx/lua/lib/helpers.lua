@@ -7,10 +7,12 @@ local json = require "cjson"
 
 -- função response, usada para responder requisições HTTP
 function _M.response(status, message, data)
-    local response = {message = message, data = data}
-    -- for k, v in pairs(data) do
-    --     response[k] = v
-    -- end
+    local response = {message = message}
+    if type(data) == 'table' then 
+        for k, v in pairs(data) do
+            response[k] = v
+        end
+    end
     ngx.status = status
     ngx.say(json.encode(response))
     ngx.exit(ngx.OK)
