@@ -58,16 +58,22 @@ function _M.find_user_by_email(email)
 
         if not res then
             ngx.log(ngx.ERR, "Erro ao executar consulta: " .. err)
+            conn:close()
+            conn = nil
             return false
         end
 
+        if #res == 0 then
+
+            conn:close()
+            conn = nil
         if #res == 0 then
             ngx.log(ngx.INFO, "Nenhum usuário encontrado com o email: " .. email)
             return false
         end
 
-        ngx.log(ngx.INFO, "Usuário encontrado: ", res[1].ct_email, res[1].ct_nome)
-
+        conn:close()
+        conn = nil
         return res[1]
     end
 end
@@ -94,11 +100,14 @@ function _M.add_user(nm_usuario, ct_email, pw_usuario)
 
         if not res then
             ngx.log(ngx.ERR, "Erro ao executar consulta: " .. err)
+            conn:close()
+            conn = nil
             return false
         end
 
         ngx.log(ngx.INFO, "Usuário adicionado com sucesso: ", ct_email)
         conn:close()
+        conn = nil
         return res.insert_id
     end
 end
