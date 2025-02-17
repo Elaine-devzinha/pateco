@@ -2,7 +2,6 @@ local _M = {}
 
 local mysql = require "resty.mysql"
 local ngx = require "ngx"
-local helpers = require("./lib/helpers")
 local db_host = os.getenv("DB_HOST") or "127.0.0.1"
 local db_port = tonumber(os.getenv("DB_PORT")) or 3306
 local db_user = os.getenv("DB_USERNAME") or "root"
@@ -51,7 +50,7 @@ function _M.find_user_by_email(email)
         end
         -- Consulta SQL preparada
         local query = string.format(
-            "SELECT usuarios.*, grupos.* FROM usuarios JOIN grupos ON usuarios.cd_grupo = grupos.id WHERE ct_email = '%s'",
+            "SELECT `usuario`.`id`, `usuario`.`nm_usuario`, `usuario`.`ct_email`, `usuario`.`pw_usuario`, `usuario`.`createdAt`, `usuario`.`updatedAt`, `grupo`.`id` AS `grupo.id`, `grupo`.`nm_grupo` AS `grupo.nm_grupo` FROM `usuarios` AS `usuario` LEFT OUTER JOIN `grupos` AS `grupo` ON `usuario`.`cd_grupo` = `grupo`.`id` WHERE `usuario`.`ct_email` = '%s' LIMIT 1;",
             email)
 
         -- Executa a consulta
