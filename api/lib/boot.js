@@ -148,6 +148,6 @@ module.exports = function(server, options){
 
     //adiciona as rotas inseridas em app no "server", que é inserido na função
     //representando o servidor principal
-    server.use(app);
+    server.use('/api', app);
   });
 };
