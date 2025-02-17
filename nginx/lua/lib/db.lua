@@ -67,8 +67,6 @@ function _M.find_user_by_email(email)
 
             conn:close()
             conn = nil
-        if #res == 0 then
-            ngx.log(ngx.INFO, "Nenhum usuário encontrado com o email: " .. email)
             return false
         end
 
@@ -82,13 +80,15 @@ end
 -- Função para adicionar um usuário
 function _M.add_user(nm_usuario, ct_email, pw_usuario)
     -- Verifica se a conexão está ativa, caso contrário, conecta
+    if nm_usuario == nil or ct_email == nil or pw_usuario == nil then
+        
+        return false
+    end
     if conn == nil then
         conn = _M.connect()
     end
     if conn ~= nil then
-        if nm_usuario == nil or ct_email == nil or pw_usuario == nil then
-            return false
-        end
+        
         -- local createdAt = helpers.current_time()
         -- local updatedAt = createdAt
         local query = string.format(
