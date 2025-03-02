@@ -8,12 +8,5 @@ EXPOSE 3000
 
 RUN npm install
 
-RUN npx sequelize-cli db:create
-
-RUN npx sequelize-cli db:migrate
-
-RUN npx sequelize-cli db:seed:all
-
-
 CMD npm run api:setup 
 

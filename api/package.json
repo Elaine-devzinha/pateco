@@ -5,7 +5,7 @@
   "scripts": {
     "api:test": "jest --passWithNoTests --detectOpenHandles",
     "api:dev": "npx nodemon ./bin/www",
-    "api:setup": "npx sequelize-cli db:create && npx sequelize-cli db:migrate",
+    "api:setup": "npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
     "api:start": "node ./bin/www"
   },
   "dependencies": {
